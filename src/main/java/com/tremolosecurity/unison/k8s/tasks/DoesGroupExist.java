@@ -24,10 +24,14 @@ import com.tremolosecurity.provisioning.util.CustomTask;
 import com.tremolosecurity.saml.Attribute;
 import com.tremolosecurity.server.GlobalEntries;
 
+import org.apache.log4j.Logger;
+
 /**
  * DoesGroupExist
  */
 public class DoesGroupExist implements CustomTask {
+
+    static Logger logger = Logger.getLogger(DoesGroupExist.class);
 
     String target;
     String groupName;
@@ -37,6 +41,7 @@ public class DoesGroupExist implements CustomTask {
 
     @Override
     public boolean doTask(User user, Map<String, Object> request) throws ProvisioningException {
+        logger.info("task : " + this.task  + " / " + this);
         String localGroupName = task.renderTemplate(groupName, request);
         UserStoreProviderWithAddGroup provTarget = (UserStoreProviderWithAddGroup) GlobalEntries.getGlobalEntries().getConfigManager().getProvisioningEngine().getTarget(this.target).getProvider();
         if (provTarget.isGroupExists(localGroupName, user, request)) {
@@ -54,11 +59,13 @@ public class DoesGroupExist implements CustomTask {
         this.groupName = config.get("groupName").getValues().get(0);
         this.attributeName = config.get("attributeName").getValues().get(0);
         this.task = task;
+        logger.info("init : " + task + " / " + this);
 	}
 
 	@Override
 	public void reInit(WorkflowTask task) throws ProvisioningException {
-		this.task = task;
+        this.task = task;
+        logger.info("reInit : " + task + " / " + this);
 	}
 
     
