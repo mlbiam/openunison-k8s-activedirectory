@@ -173,6 +173,7 @@
                         <param name="cluster.maxChars" value="0" />
                         <param name="cluster.unique" value="false" />
                         <param name="cluster.type" value="list" />
+                        <param name="cluster.editJavaScriptFunction" value="update_new_project(this,attr_cfg)" />
                         <param name="cluster.dynamicValueSource.className" value="com.tremolosecurity.scalejs.ListClusters" />
                         
 
@@ -189,6 +190,31 @@
                         <param name="nameSpace.maxChars" value="63"/>
                         <param name="nameSpace.unique" value="false"/>
                         <param name="nameSpace.type" value="text"/>
+
+                        <param name="attributeNames" value="gitUrl"/>
+                        <param name="gitUrl.displayName" value="Git URL"/>
+                        <param name="gitUrl.readOnly" value="false"/>
+                        <param name="gitUrl.required" value="false"/>
+                        <param name="gitUrl.regEx" value="^.*$"/>
+                        <param name="gitUrl.regExFailedMsg" value="Invalid git url"/>
+                        <param name="gitUrl.minChars" value="0"/>
+                        <param name="gitUrl.maxChars" value="0"/>
+                        <param name="gitUrl.unique" value="false"/>
+                        <param name="gitUrl.type" value="text"/>
+                        <param name="gitUrl.show" value="false"/>
+
+                        <param name="attributeNames" value="gitSshKey"/>
+                        <param name="gitSshKey.displayName" value="Git SSH Private Key"/>
+                        <param name="gitSshKey.readOnly" value="false"/>
+                        <param name="gitSshKey.required" value="false"/>
+                        <param name="gitSshKey.regEx" value=""/>
+                        <param name="gitSshKey.regExFailedMsg" value="Invalid ssh key"/>
+                        <param name="gitSshKey.minChars" value="0"/>
+                        <param name="gitSshKey.maxChars" value="10000"/>
+                        <param name="gitSshKey.unique" value="false"/>
+                        <param name="gitSshKey.type" value="textarea"/>
+                        <param name="gitSshKey.show" value="false"/>
+
 
                         <!-- <param name="callWorkflowInit" value="workflowName=NewK8SNamespace" /> -->
 
@@ -209,6 +235,24 @@
                     <rule scope="dn" constraint="o=Tremolo"/>
                 </azRules>
             </url>
+
+            <url regex="false" authChain="LoginService" overrideHost="false" overrideReferer="false">
+              <host>#[OU_HOST]</host>
+              <filterChain>
+                  <filter class="com.tremolosecurity.proxy.filters.CheckK8sTargetMetadata" />
+                     
+              </filterChain>
+              <uri>/newproject/target-metadata</uri>
+              <results>
+                  <auSuccess></auSuccess>
+                  <auFail>Default Login Failure</auFail>
+                  <azSuccess></azSuccess>
+                  <azFail>PrivilegedRequest</azFail>
+              </results>
+              <azRules>
+                  <rule scope="dn" constraint="o=Tremolo"/>
+              </azRules>
+          </url>
 
             <url regex="false" authChain="LoginService" overrideHost="false" overrideReferer="false">
                 <host>#[OU_HOST]</host>

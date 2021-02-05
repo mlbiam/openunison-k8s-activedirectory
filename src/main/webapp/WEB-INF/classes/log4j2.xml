@@ -15,7 +15,16 @@
 </Logger>
 
 
+
+
+
+
 <!--
+<Logger name="com.tremolosecurity.provisioning.tasks.CreateK8sObject"  level="debug">
+  <AppenderRef ref="STDOUT" level="debug"/>
+</Logger>
+
+
 <Logger name="com.tremolosecurity.openunison.util.config.OpenUnisonConfigLoader"  level="debug">
   <AppenderRef ref="STDOUT" level="debug"/>
 </Logger>

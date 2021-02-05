@@ -171,11 +171,11 @@ limitations under the License.
 			</div>
 
 			<!-- For users that can be edited -->
-			<div id="outer" ng-show="scale.showForm" >
+			<div ng-show="scale.showForm" >
 				<form name="saveUserForm">
 					<div class="row" ng-repeat="attributeConfig in scale.attributeConfigs">
-							<div class="col-md-4" ng-show="attributeConfig.show" >{{ attributeConfig.displayName}}</div>
-							<div class="col-md-8" ng-show="attributeConfig.show">
+							<div class="col-md-4">{{ attributeConfig.displayName}}</div>
+							<div class="col-md-8">
 
 								<input type="text" ng-show="attributeConfig.type == 'text'" ng-model="scale.newUser.attributes[attributeConfig.name]"  aria-label="{{ attributeConfig.displayName }}" ng-change="scale.edit_event(attributeConfig)" />
 								<input type="text" ng-show="attributeConfig.type == 'text-list'" ng-model="scale.newUser.attributes[attributeConfig.name]"  aria-label="{{ attributeConfig.displayName }}" ng-change="scale.change_text_control(attributeConfig)"/>
@@ -267,7 +267,6 @@ limitations under the License.
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 
 <script src="js/scale.js"></script>
-<script src="js/update_new_project.js"></script>
 
 </body>
 </html>

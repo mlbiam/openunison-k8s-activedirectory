@@ -1,5 +1,5 @@
 /*
-Copyright 2015 Tremolo Security, Inc.
+Copyright 2015, 2016 Tremolo Security, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,6 +13,39 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+
+function InputOptions( arr ) {
+    for ( var i = 0; i < arr.length; i += 1 ) {
+        this[i] = arr[i];
+    }
+
+    // length is readonly
+    Object.defineProperty( this, 'length', {
+        get: function () {
+            return arr.length;
+        }
+    });
+
+    // a HTMLCollection is immutable
+    Object.freeze( this );
+}
+
+InputOptions.prototype = {
+    item: function ( i ) {
+        return this[i] != null ? this[i] : null;
+    },
+    namedItem: function ( name ) {
+        for ( var i = 0; i < this.length; i += 1 ) {
+            if ( this[i].id === name || this[i].name === name ) {
+                return this[i];
+            }
+        }
+        return null;
+    }
+};
+
+
 (function(){
   var app = angular.module('scale',['treeControl','ngSanitize']);
 
@@ -133,8 +166,37 @@ limitations under the License.
         var mobile = (ow <= 991);
         return ! mobile;
       };
+      
+      
 
-
+      this.change_text_control = function(attr_cfg) {
+    	  
+    	  if (attr_cfg != null) {
+    		  $http.get('register/values?name=' + attr_cfg.name + '&search=' + $scope.scale.newUser.attributes[attr_cfg.name]).then(
+    				  function(response) {
+    					  
+    					  attr_cfg.values = response.data;
+    					  
+    					  this.edit_event(attr_cfg);
+    					  
+    				  },
+    				  function(response) {
+    					  
+    				  }
+    				  
+    		  );
+    	  }
+      
+      
+      }
+      
+      this.edit_event = function(attr_cfg) {
+        
+      	if ('editJavaScriptFunction' in attr_cfg) {
+      		eval(attr_cfg.editJavaScriptFunction);
+      	}
+      	
+      }
 
       angular.element(document).ready(function () {
 
@@ -151,6 +213,7 @@ limitations under the License.
             
             for (var i in $scope.scale.config.attributeNameList) {
               $scope.scale.newUser.attributes[$scope.scale.config.attributeNameList[i]] = '';
+              //$scope.scale.config.attributes[$scope.scale.config.attributeNameList[i]].show = true;
               $scope.scale.attributeConfigs.push($scope.scale.config.attributes[$scope.scale.config.attributeNameList[i]]);
             };
 
