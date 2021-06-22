@@ -68,6 +68,9 @@
       <smtpSOCKSProxyPort>0</smtpSOCKSProxyPort>
       <smtpLocalhost>localhost</smtpLocalhost>
       <validationQuery>#[OU_JDBC_VALIDATION]</validationQuery>
+      <hibernateProperty name="hibernate.connection.CharSet" value="utf8" />
+      <hibernateProperty name="hibernate.connection.characterEncoding" value="utf8" />
+      <hibernateProperty name="hibernate.connection.useUnicode" value="true" />
     </approvalDB>
     <org name="Kubernetes Enterprise" description="Kubernetes enterprise deployment" uuid="B158BD40-0C1B-11E3-8FFD-0800200C9A66">
       <dynamicOrgs enabled="true" className="com.tremolosecurity.provisioning.orgs.LoadOrgsFromK8s">
